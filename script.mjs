@@ -74,3 +74,27 @@ function calculateRevisionDates(topic, startDate) {
     date: date.toISOString().split("T")[0],
   }));
 }
+
+
+//helper functions to add days, months, or years to a given date
+function addDays(date, days) {
+  const newDate = new Date(date);
+  newDate.setDate(newDate.getDate() + days);
+
+  return newDate;
+}
+
+function addMonths(date, months) {
+  const newDate = new Date(date);
+  newDate.setMonth(newDate.getMonth() + months);
+
+  return newDate;
+}
+
+function addYears(date, years) {
+  const newDate = new Date(date);
+  newDate.setFullYear(newDate.getFullYear() + years);
+
+  return newDate;
+}
+

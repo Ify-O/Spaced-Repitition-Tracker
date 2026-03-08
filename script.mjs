@@ -58,6 +58,27 @@ form.addEventListener("submit", (event) => {
   dateInput.value = today;
 });
 
+// Populate the user dropdown dynamically
+function populateUsers() {
+  const users = getUserIds();
+
+  // Clear previous options
+  userSelect.innerHTML = "";
+
+  // Default option
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "Select a user";
+  userSelect.appendChild(defaultOption);
+  // Add user options
+  users.forEach((userId) => {
+    const option = document.createElement("option");
+    option.value = userId;
+    option.textContent = `User ${userId}`;
+    userSelect.appendChild(option);
+  });
+}
+
 // Function to calculate the revision dates based on the given topic and start date
 function calculateRevisionDates(topic, startDate) {
   const base = new Date(startDate);
@@ -120,7 +141,7 @@ function renderAgenda(items) {
     .map((item) => `<p>${item.topic}, ${formatDate(item.date)}</p>`)
     .join("");
 
-  agendaContainer.innerHTML = html;
+  agendaContainer.innerHTML = `<ul>${html}</ul>`;
 }
 
 // Helper function to format a date string as "Month Day, Year"

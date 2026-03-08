@@ -52,3 +52,39 @@ section h2 {
   margin-bottom: 15px;
   font-size: 1.5rem;
 }
+section {
+  background-color: #efe9e7; /* soft cream */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+  color: #20081f;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #20081f;
+}
+form input[type="text"],
+form input[type="date"],
+form select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d2d9ef;
+  background-color: #f9f9ed;
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border 0.3s,
+    box-shadow 0.3s;
+}

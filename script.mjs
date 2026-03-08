@@ -71,10 +71,10 @@ function populateUsers() {
   defaultOption.textContent = "Select a user";
   userSelect.appendChild(defaultOption);
   // Add user options
-  users.forEach((userId) => {
+  users.forEach((userId, index) => {
     const option = document.createElement("option");
     option.value = userId;
-    option.textContent = `User ${userId}`;
+    option.textContent = `User ${index + 1}`;
     userSelect.appendChild(option);
   });
 }

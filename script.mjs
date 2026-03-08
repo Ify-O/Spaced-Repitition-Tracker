@@ -16,8 +16,16 @@ dateInput.value = today;
 // Populate the user select dropdown
 populateUsers();
 
+userSelect.value = localStorage.getItem("selectedUser") || "";
+if (userSelect.value) {
+  const data = getData(userSelect.value) || [];
+  renderAgenda(data);
+}
+
 userSelect.addEventListener("change", () => {
   const userId = userSelect.value;
+
+  localStorage.setItem("selectedUser", userId);
 
   if (!userId) {
     agendaContainer.innerHTML =

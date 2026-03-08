@@ -10,3 +10,8 @@ test("User IDs are correct", () => {
   const expected = ["1", "2", "3", "4", "5"];
   assert.deepEqual(getUserIds(), expected);
 });
+
+test("All user IDs are strings", () => {
+  const ids = getUserIds();
+  ids.forEach((id) => assert.strictEqual(typeof id, "string"));
+});

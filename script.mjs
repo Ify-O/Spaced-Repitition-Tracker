@@ -138,9 +138,8 @@ function renderAgenda(items) {
   }
 
   const html = upcomingItems
-    .map((item) => `<p>${item.topic}, ${formatDate(item.date)}</p>`)
+    .map((item) => `<li>${item.topic} — ${formatDate(item.date)}</li>`)
     .join("");
-
   agendaContainer.innerHTML = `<ul>${html}</ul>`;
 }
 

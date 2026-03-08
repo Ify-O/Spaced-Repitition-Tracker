@@ -31,3 +31,30 @@ userSelect.addEventListener("change", async () => {
   renderAgenda(data);
 });
 
+//function to handle the form submission for adding a new topic and its revision dates to the user's agenda
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const userId = userSelect.value;
+
+  if (!userId) {
+    alert("Please select a user first.");
+    return;
+  }
+
+  const topic = topicInput.value;
+  const startDate = dateInput.value;
+
+  const revisions = calculateRevisionDates(topic, startDate);
+
+  await addData(userId, revisions);
+
+  const updatedData = await getData(userId);
+
+  renderAgenda(updatedData);
+
+  form.reset();
+
+  dateInput.value = new Date().toISOString().split("T")[0];
+});
+

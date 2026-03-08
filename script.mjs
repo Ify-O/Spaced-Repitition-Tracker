@@ -1,5 +1,6 @@
 import { getData, addData } from "./storage.mjs";
 import { getUserIds } from "./common.mjs";
+import { renderAgenda } from "./render.mjs";
 
 //DOM ELEMENTS
 const userSelect = document.getElementById("user-select");

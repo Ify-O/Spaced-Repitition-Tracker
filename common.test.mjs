@@ -15,3 +15,7 @@ test("All user IDs are strings", () => {
   const ids = getUserIds();
   ids.forEach((id) => assert.strictEqual(typeof id, "string"));
 });
+
+test("User array is not empty", () => {
+  assert.ok(getUserIds().length > 0);
+});

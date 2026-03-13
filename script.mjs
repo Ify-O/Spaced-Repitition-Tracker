@@ -1,6 +1,7 @@
 import { getData, addData } from "./storage.mjs";
 import { getUserIds } from "./common.mjs";
-import { renderAgenda, formatDate } from "./render.mjs";
+import { renderAgenda } from "./render.mjs";
+import { presetTopics } from "./data.mjs";
 
 // DOM ELEMENTS
 const userSelect = document.getElementById("user-select");
@@ -16,18 +17,17 @@ dateInput.value = today;
 // Populate user dropdown
 populateUsers();
 
-// Restore last selected user from localStorage and render agenda
+// Restore last selected user
 userSelect.value = localStorage.getItem("selectedUser") || "";
+
 if (userSelect.value) {
-  const data = getData(userSelect.value) || [];
-  renderAgenda(data, agendaContainer);
+  displayAgenda(userSelect.value);
 }
 
-// Listen for user selection changes
+// listen for user selection changes
 userSelect.addEventListener("change", () => {
   const userId = userSelect.value;
 
-  // Save selected user
   localStorage.setItem("selectedUser", userId);
 
   if (!userId) {
@@ -36,52 +36,65 @@ userSelect.addEventListener("change", () => {
     return;
   }
 
-  const data = getData(userId) || [];
-  renderAgenda(data, agendaContainer);
+  displayAgenda(userId);
 });
 
-// Handle form submission to add new topics
+// Handle form submission to add new topic
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const userId = userSelect.value;
+
   if (!userId) {
     alert("Please select a user first.");
     return;
   }
 
   const topic = topicInput.value.trim();
+
   if (!topic) {
     alert("Please enter a topic.");
     return;
   }
 
   const startDate = dateInput.value;
+
   const revisions = calculateRevisionDates(topic, startDate);
 
   addData(userId, revisions);
 
-  const updatedData = getData(userId) || [];
-  renderAgenda(updatedData, agendaContainer);
+  displayAgenda(userId);
 
-  // Reset form
-  topicInput.value = "";
+  form.reset();
   dateInput.value = today;
   topicInput.focus();
 });
 
-// Populate user select dropdown
+// MERGE PRESET + STORED DATA
+function getUserTopics(userId) {
+  const stored = getData(userId) || [];
+  const preset = presetTopics[userId] || [];
+
+  return [...preset, ...stored];
+}
+
+// DISPLAY AGENDA
+function displayAgenda(userId) {
+  const data = getUserTopics(userId);
+  renderAgenda(data, agendaContainer);
+}
+
+// Populate user dropdown
 function populateUsers() {
   const users = getUserIds();
+
   userSelect.innerHTML = "";
 
-  // Default option
   const defaultOption = document.createElement("option");
   defaultOption.value = "";
   defaultOption.textContent = "Select a user";
   userSelect.appendChild(defaultOption);
 
-  // User options
   users.forEach((userId, index) => {
     const option = document.createElement("option");
     option.value = userId;
@@ -90,7 +103,7 @@ function populateUsers() {
   });
 }
 
-// Calculate revision dates for spaced repetition
+// Calculate spaced repetition dates
 function calculateRevisionDates(topic, startDate) {
   const base = new Date(startDate);
 

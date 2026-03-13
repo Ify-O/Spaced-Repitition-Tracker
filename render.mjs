@@ -15,8 +15,9 @@ export function renderAgenda(items, container) {
   }
 
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-  // Filter out past dates and sort chronologically
+  // Filter upcoming dates and sort
   const upcomingItems = items
     .filter((item) => new Date(item.date) >= today)
     .sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -26,15 +27,21 @@ export function renderAgenda(items, container) {
     return;
   }
 
-  // Group dates by topic
+  // Group revisions by topic
   const grouped = upcomingItems.reduce((acc, item) => {
-    if (!acc[item.topic]) acc[item.topic] = [];
+    if (!acc[item.topic]) {
+      acc[item.topic] = [];
+    }
+
     acc[item.topic].push(formatDate(item.date));
     return acc;
   }, {});
 
+  // Build HTML
   const html = Object.entries(grouped)
-    .map(([topic, dates]) => `<li>${topic}: ${dates.join(", ")}</li>`)
+    .map(([topic, dates]) => {
+      return `<li><strong>${topic}</strong>: ${dates.join(", ")}</li>`;
+    })
     .join("");
 
   container.innerHTML = `<ul>${html}</ul>`;
@@ -43,10 +50,15 @@ export function renderAgenda(items, container) {
 /**
  * Format a date string as "Month Day, Year"
  *
- * @param {string} dateString - Date string (YYYY-MM-DD)
- * @returns {string} - Formatted date string
+ * @param {string} dateString
+ * @returns {string}
  */
 export function formatDate(dateString) {
-  const options = { year: "numeric", month: "long", day: "numeric" };
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   return new Date(dateString).toLocaleDateString(undefined, options);
 }

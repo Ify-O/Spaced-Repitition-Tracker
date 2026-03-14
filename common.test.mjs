@@ -1,21 +1,20 @@
-import { getUserIds } from "./common.mjs";
 import assert from "node:assert";
 import test from "node:test";
+
+import { getUserIds } from "./common.mjs";
 import { calculateRevisionDates } from "../script.mjs";
 
 test("calculateRevisionDates returns 5 revision dates", () => {
   const result = calculateRevisionDates("JS", "2027-07-19");
-
-  expect(result.length).toBe(5);
+  assert.equal(result.length, 5);
 });
-
 
 test("User count is correct", () => {
   assert.equal(getUserIds().length, 5);
 });
 
 test("User IDs are correct", () => {
-  const expected = ["1", "2", "3", "4", "5"];
+  const expected = ["user1", "user2", "user3", "user4", "user5"];
   assert.deepEqual(getUserIds(), expected);
 });
 

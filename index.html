@@ -20,15 +20,15 @@
       </nav>
     </header>
 
-    <main>
+    <main id="main-content">
       <section>
         <h2>Select User</h2>
         <label for="user-select">Choose a user:</label>
         <select
           id="user-select"
           name="user"
-          aria-label="Select user to view agenda" >
-        </select>
+          aria-label="Select user to view agenda"
+        ></select>
       </section>
 
       <section>
@@ -42,15 +42,19 @@
         <h2>Add New Topic</h2>
 
         <form id="newTopic-form">
-          <div>
-            <label for="newTopic-name">Topic:</label>
-            <input type="text" id="newTopic-name" name="topic" required />
-          </div>
+          <fieldset>
+            <legend>Add a new topic for spaced repetition</legend>
 
-          <div>
-            <label for="newTopic-date">Start Date:</label>
-            <input type="date" id="newTopic-date" name="date" required />
-          </div>
+            <div>
+              <label for="newTopic-name">Topic:</label>
+              <input type="text" id="newTopic-name" name="topic" required />
+            </div>
+
+            <div>
+              <label for="newTopic-date">Start Date:</label>
+              <input type="date" id="newTopic-date" name="date" required />
+            </div>
+          </fieldset>
           <button type="submit" aria-label="Add new topic">Add Topic</button>
         </form>
       </section>

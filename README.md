@@ -1,154 +1,267 @@
-# Project: Spaced Repetition Tracker
+# Study Buddy SRT - Spaced Repetition Tracker
 
-At Code Your Future, we like to use a learning technique called spaced repetition. The technique involves reviewing a topic over increasing time gaps (e.g. after one week, one month, three months, six months, one year).
+**Live Site:** https://study-buddy-srt.netlify.app/
 
-One of the difficulties of this approach is tracking which topic should be revised at what time. Your task is to write code which allows a user to track topics and then understand which topic they should revise next.
+## Project Overview
 
-You should make a frontend, which displays an agenda of topics to revise on specific dates. You should use HTML and JavaScript for this. We want to focus on your ability to create the correct logic and not spend time on creating the perfect UI. You are allowed to use CSS, but you are strongly advised to focus on the logic, and only add styling when you are finished. You will not get any credit for styling.
+Study Buddy SRT is a simple web application designed to help users track topics they need to revise using the **spaced repetition learning technique**.
 
-## Supplied scaffolding
+Spaced repetition is a method of reviewing information over increasing time intervals to improve long-term memory retention. As a student learning programming, I found this concept particularly useful for revisiting topics such as JavaScript concepts, algorithms, and problem-solving techniques.
 
-We have supplied a few sample files in the repo to demonstrate how you can define functions in one file and use them from another file. Feel free to use these files in your solution if you want, or to just use them for inspiration for your own solution.
+This project was built as part of the **Code Your Future Spaced Repetition Tracker assignment**, which focuses on implementing correct application logic using **JavaScript modules, data storage, and date calculations** rather than heavy UI design.
 
-Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server - you can't open the `index.html` file using a `file://` URL.
+The application allows users to:
 
-We have also provided a `storage.js` file, which contains three functions to help with data storage. `storage.js` is a file containing three functions:
+* Select a user from a dropdown
+* Add topics they want to revise
+* Automatically generate revision dates based on spaced repetition intervals
+* View upcoming revision dates in chronological order
 
-- `getData(userId)`: when called with a user id string as an argument, returns an array of objects, each of which represents an agenda item for the user
-- `addData(userId, data)`: when called with a user id string and an array of objects as arguments, it will append the agenda items data to the user's stored agenda. Each of the objects should contain information about the agenda item, such as the date and topic that should be revised on that date. The function does not return anything
-- `clearData(userId)`: when called with a user id string as an argument, it will clear any stored data associated with the user id. This is provided to help with development, and is not required in the final code
+The goal of the application is to help users understand **which topic they should revise next**.
 
-**Note**: None of the storage functions perform any validation or de-duplication, so ensure that you are sending the correct data before storing it.
+# Live Deployment
 
-## Requirements
+The project is deployed using **Netlify** and automatically updates when changes are pushed to GitHub.
 
-This may be an individual or a team project - your class leaders will tell you which you are doing. If it is a team project, they will also tell you how the groups will work.
+Live website:
 
-You must submit both a link to your GitHub repo, and a link to the deployed website.
+https://study-buddy-srt.netlify.app/
 
-Your website must be hosted on the internet, and must be automatically deployed when you merge changes to your GitHub repo.
+# Tech Stack
 
-Your website must include a drop-down to select a user to display information for.
+This project was intentionally built using **core web technologies** to focus on logic and modular JavaScript.
 
-You **must not** implement any kind of authentication. Just a drop-down to choose which user’s information to display. You **must not** implement data storage yourself, as we have provided that for you. (We want to avoid you "wasting" time implementing these, instead of building the project!)
+### Languages
 
-The goal of your website to is allow users to understand which topic they should revise next.
+* HTML5
+* CSS3
+* JavaScript (ES Modules)
 
-When a user is selected, you must get the stored data for that user and use it to display their agenda. If there is no agenda for the user, you should present a message explaining this.
+### Tools & Platforms
 
-If there is an agenda, your website should display a list of topics and the revision date when the user should revise in _chronological order_. For each revision date, it should display the date and the name of the topic to revise. Revision dates in the past should not be displayed.
+* Node.js
+* Node built-in testing (`node:test`)
+* LocalStorage (via provided storage module)
+* Netlify (deployment)
+* GitHub (version control)
 
-Your website must include a form with a text input, a date picker and submit button that allows a user to add a new topic. This form must be accessible, so for example, a user using the keyboard should be able to submit it without using a mouse. The form should validate that the topic name and date have be set by the user.
+# Project Structure
 
-The date picker should default to today’s date, but allow selection of another date. You should use the built-in date picker for browsers, unless attempted as a bonus task. **No credit** is given for using an alternative date picker.
+The project is organised using **JavaScript modules** to separate responsibilities and keep the code maintainable.
 
-When the form is submitted, your website should calculate the revision dates for that topic. There should be a revision date one week, one month, three months, six months and one year from the selected date. Using these calculations, your website should store the topic name and any necessary revision date data using the functions from `storage.js` as described above.
+```
+project-root
+│
+├── index.html
+├── about.html
+├── styles.css
+│
+├── script.mjs        # Main application logic
+├── render.mjs        # Handles agenda display logic
+├── common.mjs        # Shared utilities (user IDs)
+├── storage.mjs       # Provided storage helper functions
+│
+└── tests
+    └── common.test.mjs   # Unit tests
+```
 
-After the new data has been stored, the updated agenda must be displayed (including the new topic) for the relevant user.
+### Module Responsibilities
 
-Your GitHub repository must contain at least one unit test which demonstrates that your code works. End to end tests are optional. Testing via the DOM is optional.
+**script.mjs**
 
-Every view of your website must be accessible (i.e. for each user, with any number of topics, etc). We will test this by making sure that "Snapshot" mode of Lighthouse gives 100% accessibility for any view we look at.
+* Handles application logic
+* Manages form submissions
+* Calculates revision dates
+* Loads agendas for selected users
+* Interacts with storage functions
 
-> [!WARN]
->
-> Date calculations can be complicated. Daylight savings time in particular can cause problems.
->
-> Read [this guidance on handling daylight savings time and time zones](https://stackoverflow.com/questions/2532729/daylight-saving-time-and-time-zone-best-practices).
->
-> Be sure to check the _exact_ dates returned when testing, even if adding an interval means that a date crosses a daylight savings boundary. Being off by one day will fail your project.
->
-> A tip here is to either only be adding dates and not times, or to make sure all dates are in UTC.
+**render.mjs**
+
+* Responsible for rendering the agenda
+* Sorts revision dates
+* Filters past dates
+* Formats dates for display
+
+**common.mjs**
+
+* Stores reusable logic
+* Defines the list of available users
+
+**storage.mjs**
+
+* Provided by the project scaffold
+* Handles saving and retrieving user data using LocalStorage
+
+# Core Features
+
+### 1. User Selection
+
+The application includes a dropdown containing exactly **five users**, as required by the assignment rubric.
+
+Each user has an independent revision agenda stored in LocalStorage.
+
+When a user is selected:
+
+* Their stored agenda is loaded
+* Upcoming revision topics are displayed
+
+If no topics exist, the user sees:
+
+```
+No agenda for this user.
+```
+
+### 2. Adding Topics
+
+Users can add new topics using the form.
+
+The form includes:
+
+* Topic text input
+* Date picker
+* Submit button
+
+Form validation ensures:
+
+* A topic name is entered
+* A valid date is selected
+
+The date picker defaults to **today’s date**.
+
+### 3. Automatic Revision Scheduling
+
+When a topic is submitted, the application automatically calculates revision dates using spaced repetition intervals.
+
+Revision intervals:
+
+* 1 week
+* 1 month
+* 3 months
+* 6 months
+* 1 year
+
+These dates are calculated using JavaScript date manipulation and then stored for the selected user.
+
+Example output:
+
+```
+Functions in JS — July 26 2027
+Functions in JS — August 19 2027
+Functions in JS — October 19 2027
+Functions in JS — January 19 2028
+Functions in JS — July 19 2028
+```
+
+### 4. Agenda Rendering
+
+The agenda displays:
+
+* Topic name
+* Revision date
+
+Features of the agenda display:
+
+* Sorted in **chronological order**
+* Past revision dates are automatically hidden
+* Topics remain stored across page reloads
+
+# Accessibility
+
+Accessibility was considered during development to ensure usability for all users.
+
+Accessibility features include:
+
+* Proper HTML semantic structure
+* Labelled form inputs
+* Keyboard-accessible form submission
+* Screen-reader friendly updates using `aria-live`
+* Logical document structure
+
+The website is designed to achieve **100% Lighthouse accessibility score**, as required by the assignment rubric.
+
+# Data Storage
+
+The project uses the **provided storage module**, which manages LocalStorage interactions.
+
+Available functions:
+
+```
+getData(userId)
+addData(userId, data)
+clearData(userId)
+```
+
+Each topic submission stores multiple revision dates associated with the selected user.
+
+Data persists across page reloads.
+
+# Unit Testing
+
+The project includes **unit tests** written using Node’s built-in testing module.
+
+Test file:
+
+```
+common.test.mjs
+```
+
+Tests verify:
+
+* Correct number of users
+* Correct user IDs
+* User ID data types
+* Revision calculation logic
+
+Example test:
+
+```javascript
+test("calculateRevisionDates returns 5 revision dates", () => {
+  const result = calculateRevisionDates("JS", "2027-07-19");
+  assert.equal(result.length, 5);
+});
+```
+
+This ensures the core logic works as expected.
+
+# Assignment Rubric Compliance
+
+This project was developed to satisfy all requirements of MigraCode **Spaced Repetition Tracker rubric**.
+
+The application includes:
+
+* A dropdown with **exactly 5 users**
+* No user selected on initial page load
+* Empty agenda for new users
+* Agenda loaded from LocalStorage
+* Chronological revision display
+* Past revision dates hidden
+* Accessible form for adding topics
+* Automatic revision date calculation
+* Persistent data storage
+* Unit tests verifying functionality
+* Accessible interface with Lighthouse compliance
 
 
-## Rubric
+# What I Learned
 
-All of the below requirements must be met for the project to be considered complete:
+Building this project helped strengthen my understanding of:
 
-- The website must contain a drop-down which lists exactly 5 users
-- No user is selected on page load
-- All of the users must have no agenda when first loading (i.e. with clear `localStorage`). Data should be persisted across page loads (which is handled by the code in `storage.mjs`).
-- Selecting a user must load the relevant user's agenda from storage
-- Selecting a user must display the agenda for the relevant user (see manual testing below)
-- If there is no agenda for the selected user, a message is displayed to explain this
-- The website must contain a form with inputs for a topic name and a date picker. The form should also have a submit button.
-- The date picker must default to today’s date on first page load
-- The form has validation to ensure that both the topic name and and selected date have been set by the user
-- Submitting the form adds a new topic to revise for the relevant user only. The topic’s dates to revise are calculated as one week, one month, three months, six months and one year from the selected date (see manual testing below)
-- After creating a new topic to revise, the agenda for the current user is shown, including the new topic
-- The website must score 100 for accessibility in Lighthouse
-- Unit tests must be written for at least one non-trivial function
+* JavaScript module architecture
+* Separation of concerns
+* Date manipulation in JavaScript
+* LocalStorage data persistence
+* Accessibility best practices
+* Writing unit tests with Node
+* Deploying static applications using Netlify
 
-Below are some manual testing steps and expected results, which will be run on all websites to fairly assess them. All of the dates are intended to be exact - if dates are off by one day, that counts as a failure.
+It also demonstrated how relatively simple logic can be used to build useful learning tools.
 
-Pick the year after the current one (e.g. in 2025, pick 2026).
+# Future Improvements
 
-Where an instruction says `${YEAR}`, use that year. Where an instruction says `${YEAR+1}`, use the following year.
+Potential future improvements include:
 
-Steps:
-
-1. Select user 1 from the drop-down
-1. Add “Functions in JS” to the text input
-1. Select the date 19th July ${YEAR} from the date picker
-1. Submit the form
-
-Expected result:
-
-- The agenda for user 1 is shown, with the revision dates shown as follows:
-  - Functions in JS, 26th July ${YEAR}
-  - Functions in JS, 19th August ${YEAR}
-  - Functions in JS, 19th October ${YEAR}
-  - Functions in JS, 19th January ${YEAR+1}
-  - Functions in JS, 19th July ${YEAR+1}
-- Each of the revision dates show the topic name and the relevant date (styling/formatting does not matter as long as it is understandable)
-- The form remains on the website (allowing for further topics to be added)
-
-Steps:
-
-1. Select user 2 from the drop-down
-1. Add “Variables in Python” to the text input
-1. Select the date 5th November ${YEAR} from the date picker
-1. Submit the form
-1. Add “Functions in Python” to the text input
-1. Select the date 5th October ${YEAR} from the date picker
-1. Submit the form
-
-Expected result:
-
-- The agenda for user 2 is shown, with the revision dates shown as follows:
-  - Functions in Python, 12th October ${YEAR}
-  - Functions in Python, 5th November ${YEAR}
-  - Variables in Python, 12th November ${YEAR}
-  - Variables in Python, 5th December ${YEAR}
-  - Functions in Python, 5th January ${YEAR+1}
-  - Variables in Python, 5th February ${YEAR+1}
-  - Functions in Python, 5th April ${YEAR+1}
-  - Variables in Python, 5th May ${YEAR+1}
-  - Functions in Python, 5th October ${YEAR+1}
-  - Variables in Python, 5th November ${YEAR+1}
-  - Each of the revision dates show the topic name and the relevant date (styling/formatting does not matter as long as it is understandable)
-- The form remains on the website (allowing for further topics to be added)
-
-Steps:
-
-1. Select User 3 from the drop-down
-1. Add “Codewars” to the text input
-1. Select the date exactly one month ago (e.g. if it's currently July 26th, select June 26th this year) from the date picker
-1. Submit the form
-
-Expected result:
-
-- The agenda for user 3 is shown, with the revision dates shown as follows:
-  - (No topic is shown for 1 week after the selected date, as this is in the past)
-  - Codewars, Today's date (e.g. if it's currently July 26th, shows: July 26th)
-  - Codewars, Two months in the future (e.g. if it's currently July 26th, shows: September 26th)
-  - Codewars, 5 months in the future (e.g. if it's currently July 26th, shows: December 26th)
-  - Codewars, 11 months in the future, (e.g. if it's currently July 26th, shows: June 26th)
-- Each of the revision dates show the topic name and the relevant date (styling/formatting does not matter as long as it is understandable)
-- The form remains on the website (allowing for further topics to be added)
-
-Go back and check User 1, User 2, and User 3 still show the correct outputs.
-
-## Working in a group
-
-If you working in a group, we recommend that **all** team members read the [Working in a group guidelines](https://github.com/CodeYourFuture/The-Piscine/blob/main/working-in-a-group.md). Confirm all group members have read and understand these before starting to write code.
+* Topic editing and deletion
+* Visual calendar view
+* Notifications for upcoming revisions
+* Progress tracking
+* Multiple topics grouped by subject

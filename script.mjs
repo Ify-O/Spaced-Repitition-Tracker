@@ -36,6 +36,9 @@ userSelect.addEventListener("change", () => {
   }
 
   displayAgenda(userId);
+
+  form.reset();
+  dateInput.value = today;
 });
 
 // Handle form submission to add new topic
@@ -69,13 +72,11 @@ form.addEventListener("submit", (event) => {
   topicInput.focus();
 });
 
-
 // DISPLAY AGENDA
 function displayAgenda(userId) {
   const data = getData(userId) || [];
   renderAgenda(data, agendaContainer);
 }
-
 
 // Populate user dropdown
 function populateUsers() {
@@ -98,7 +99,7 @@ function populateUsers() {
 
 // Calculate spaced repetition dates
 export function calculateRevisionDates(topic, startDate) {
-  const base = new Date(startDate);
+  const base = new Date(startDate + "T00:00:00");
 
   const dates = [
     addDays(base, 7),
